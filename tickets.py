@@ -48,3 +48,70 @@ def add_ticket(tickets, title, description, priority="medium"):
     tickets.append(ticket)
 
     return ticket
+def filter_by_status(tickets, status):
+    result = []
+
+    for ticket in tickets:
+        if ticket.status == status:
+            result.append(ticket)
+
+    return result
+
+
+def filter_by_priority(tickets, priority):
+    result = []
+
+    for ticket in tickets:
+        if ticket.priority == priority:
+            result.append(ticket)
+
+    return result
+
+
+def search_title(tickets, word):
+    result = []
+
+    word = word.lower()
+
+    for ticket in tickets:
+        if word in ticket.title.lower():
+            result.append(ticket)
+
+    return result
+
+
+def sort_by_priority(tickets):
+    priority_order = {
+        "high": 0,
+        "medium": 1,
+        "low": 2
+    }
+
+    result = sorted(
+        tickets,
+        key=lambda ticket: (priority_order[ticket.priority], ticket.id)
+    )
+
+    return result
+
+
+def count_by_status(tickets):
+    counts = {}
+
+    for ticket in tickets:
+        counts[ticket.status] = counts.get(ticket.status, 0) + 1
+
+    return counts
+
+
+def summary_lines(tickets):
+    counts = count_by_status(tickets)
+
+    statuses = ["open", "in_progress", "resolved", "closed"]
+
+    result = []
+
+    for status in statuses:
+        result.append(f"{status}: {counts.get(status, 0)}")
+
+    return result
